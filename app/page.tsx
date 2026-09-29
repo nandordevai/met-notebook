@@ -1,34 +1,48 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
 import Header from '@/components/Header';
 import styles from './page.module.css';
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{q?: string, page?: string}>;
-}) {
-  const params = await searchParams;
-  const page = Number(params.page ?? 1);
+const API_URL = 'https://collectionapi.metmuseum.org/public/collection/v1.1/search';
+
+export default function Home() {
+  const params = useSearchParams();
+  const page = Number(params.get('page') ?? 1);
   const pageSize = 12;
-  const query = params.q ?? '';
-  let artworks;
-  if (query) {
-    // TODO: make search always return 12 items with image
-    const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1.1/search?q=flora&title=true&hasImage=true&offset=${(page - 1) * pageSize}&limit=${pageSize}`);
-    const result = await response.json();
-    artworks = await Promise.all(
-      result.objectIDs.map(async (id: number) => {
-        const response = await fetch(
-          `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
-        );
-        return response.json();
-      })
-    );
+  const query = params.get('q') ?? '';
+  const [artworks, setArtworks] = useState<any[]>([]);
+
+  function buildQueryURL() {
+    return `${API_URL}?q=${query}&title=true&hasImage=true&offset=${(page - 1) * pageSize}&limit=${pageSize}`;
   }
+
+  useEffect(() => {
+    async function load() {
+      if (query) {
+        // TODO: make search always return 12 items with image
+        const response = await fetch(buildQueryURL());
+        const result = await response.json();
+        const artworks = await Promise.all(
+          result.objectIDs.map(async (id: number) => {
+            const response = await fetch(
+              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
+            );
+            return response.json();
+          })
+        );
+        setArtworks(artworks);
+      }
+    }
+    load();
+  }, [query, page]);
 
   return (
     <>
-      <Header page={page} query={params.q}/>
+      <Header page={page} query={query}/>
       { artworks &&
         <section className={styles.page}>
           <div className={styles.artworks}>
@@ -42,8 +56,14 @@ export default async function Home({
         <div className={styles.pagination}>
           <p>Page {page}</p>
           <p>
-            <a href={`/?q=flora&page=${page - 1}`}>Previous</a>
-            <a href={`/?q=flora&page=${page + 1}`}>Next</a>
+            {page > 1 && (
+              <Link href={`/?q=${encodeURIComponent(query)}&page=${page - 1}`}>
+                Previous
+              </Link>
+            )}
+            <Link href={`/?q=${encodeURIComponent(query)}&page=${page + 1}`}>
+              Next
+            </Link>
           </p>
         </div>
       }

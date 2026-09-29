@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './Header.module.css';
 
 export default function Header({
@@ -10,7 +11,7 @@ export default function Header({
   return (
     <header className={styles.header}>
       <p className={styles.links}>
-        <a href="/collection">Collection</a>
+        <Link href={'/collection'}>Collection</Link>
       </p>
       <form method="get" action="/">
         <input type="text" name="q" defaultValue={query ?? ''}></input>

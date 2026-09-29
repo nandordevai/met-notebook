@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import ArtworkCard, { Artwork } from '@/components/ArtworkCard';
 import styles from '../page.module.css';
 import headerStyles from '@/components/Header.module.css';
@@ -32,7 +33,7 @@ export default function CollectionPage() {
     <>
       <header className={headerStyles.header}>
         <p className={styles.links}>
-          <a href="/">Search</a>
+          <Link href={'/'}>Search</Link>
         </p>
       </header>
       { artworks &&
