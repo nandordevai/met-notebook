@@ -1,0 +1,20 @@
+.header {
+  padding: 1rem;
+  text-align: center;
+
+  .links {
+    margin-block: 1rem;
+  }
+
+  p {
+    margin-block-start: 1rem;
+  }
+
+  input[type="text"] {
+    margin-inline-end: 0.5rem;
+  }
+
+  input {
+    padding: 0.25rem;
+  }
+}
