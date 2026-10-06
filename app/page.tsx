@@ -1,58 +1,22 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import ArtworkCard from '@/components/ArtworkCard';
-import Pagination from '@/components/Pagination';
 import Header from '@/components/Header';
-import styles from './page.module.css';
+import Results from '@/components/Results';
 
-const API_URL = 'https://collectionapi.metmuseum.org/public/collection/v1.1/search';
-
-export default function Home() {
-  const params = useSearchParams();
-  const page = Number(params.get('page') ?? 1);
-  const pageSize = 12;
-  const query = params.get('q') ?? '';
-  const [artworks, setArtworks] = useState<any[]>([]);
-
-  function buildQueryURL() {
-    return `${API_URL}?q=${query}&title=true&hasImage=true&offset=${(page - 1) * pageSize}&limit=${pageSize}`;
-  }
-
-  useEffect(() => {
-    async function load() {
-      if (query) {
-        // TODO: make search always return 12 items with image
-        const response = await fetch(buildQueryURL());
-        const result = await response.json();
-        const artworks = await Promise.all(
-          result.objectIDs.map(async (id: number) => {
-            const response = await fetch(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
-            );
-            return response.json();
-          })
-        );
-        setArtworks(artworks);
-      }
-    }
-    load();
-  }, [query, page]);
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+    page?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const page = Number(params.page ?? 1);
+  const query = params.q ?? '';
 
   return (
     <>
-      <Header page={page} query={query}/>
-      { artworks &&
-        <section className={styles.page}>
-          <div className={styles.artworks}>
-            {artworks.filter((artwork) => artwork.primaryImageSmall).map((artwork) => (
-              <ArtworkCard key={artwork.objectID} artwork={artwork} />
-            ))}
-          </div>
-        </section>
-      }
-      { artworks.length > 0 && <Pagination page={page} query={query} /> }
+      <Header page={page} query={query} />
+      <Results page={page} query={query} />
     </>
   );
 }

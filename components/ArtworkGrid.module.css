@@ -1,0 +1,5 @@
+.artworks {
+  align-items: center;
+  columns: 3;
+  column-fill: balance;
+}
