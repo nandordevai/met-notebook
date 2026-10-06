@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import ArtworkCard from '@/components/ArtworkCard';
+import Pagination from '@/components/Pagination';
 import Header from '@/components/Header';
 import styles from './page.module.css';
 
@@ -52,21 +52,7 @@ export default function Home() {
           </div>
         </section>
       }
-      { artworks &&
-        <div className={styles.pagination}>
-          <p>Page {page}</p>
-          <p>
-            {page > 1 && (
-              <Link href={`/?q=${encodeURIComponent(query)}&page=${page - 1}`}>
-                Previous
-              </Link>
-            )}
-            <Link href={`/?q=${encodeURIComponent(query)}&page=${page + 1}`}>
-              Next
-            </Link>
-          </p>
-        </div>
-      }
+      { artworks.length > 0 && <Pagination page={page} query={query} /> }
     </>
   );
 }

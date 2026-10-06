@@ -47,7 +47,12 @@ export default function ArtworkCard({ artwork }: {
   return (
     <article className={styles.card}>
       <h2 className={styles.title}>{truncate(artwork.title)}</h2>
-      <button onClick={addOrRemove}>{ saved ? 'Unsave' : 'Save'}</button>
+      <button
+        onClick={addOrRemove}
+        className={saved ? styles.saved : styles.unsaved}
+      >
+        { saved ? 'Unsave' : 'Save'}
+      </button>
       <img
         className={styles.image}
         src={artwork.primaryImageSmall}

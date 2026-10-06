@@ -1,0 +1,12 @@
+.pagination {
+  text-align: center;
+
+  a {
+    display: inline-block;
+    padding-inline: 1rem;
+  }
+
+  p {
+    margin-block-end: 1rem;
+  }
+}
