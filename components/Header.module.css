@@ -10,11 +10,14 @@
     margin-block-start: 1rem;
   }
 
-  input[type="text"] {
-    margin-inline-end: 0.5rem;
+  form {
+    display: inline-flex;
+    gap: 0.5rem;
   }
 
   input {
-    padding: 0.25rem;
+    border: 1px solid black;
+    border-radius: 100dvw;
+    padding: 0.5rem 1rem;
   }
 }

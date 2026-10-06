@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Pagination from '@/components/Pagination';
 import ArtworkGrid from '@/components/ArtworkGrid';
-import styles from './Results.module.css';
 
 const API_URL = 'https://collectionapi.metmuseum.org/public/collection/v1.1/search';
 
@@ -36,9 +35,7 @@ export default function Results({
 
   return (
     <>
-      <section className={styles.page}>
-        <ArtworkGrid ids={ids} />
-      </section>
+      <ArtworkGrid ids={ids} />
       <Pagination page={page} query={query} />
     </>
   );

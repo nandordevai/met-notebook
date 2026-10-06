@@ -1,12 +1,6 @@
 .page {
   padding: 2rem;
 
-  .artworks {
-    align-items: center;
-    columns: 3;
-    column-fill: balance;
-  }
-
   h1 {
     margin-block-end: 1rem;
   }

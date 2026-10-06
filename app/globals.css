@@ -26,3 +26,10 @@ body {
   margin: 0;
   padding: 0;
 }
+
+button,
+input[type="submit"] {
+  border: 1px solid black;
+  border-radius: 100dvh;
+  padding: 0.5rem 1rem;
+}

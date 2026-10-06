@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Results from '@/components/Results';
+import styles from './page.module.css';
 
 export default async function Home({
   searchParams,
@@ -16,7 +17,9 @@ export default async function Home({
   return (
     <>
       <Header page={page} query={query} />
-      <Results page={page} query={query} />
+      <section className={styles.page}>
+        <Results page={page} query={query} />
+      </section>
     </>
   );
 }

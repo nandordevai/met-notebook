@@ -3,3 +3,10 @@
   columns: 3;
   column-fill: balance;
 }
+
+.empty {
+  height: 100%;
+  padding: 3rem;
+  text-align: center;
+  width: 100%;
+}
