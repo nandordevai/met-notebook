@@ -9,12 +9,9 @@ export default function CollectionPage() {
   const [ids, setIds] = useState<number[]>([]);
 
   useEffect(() => {
-    async function loadCollection() {
-      const ids = JSON.parse(localStorage.getItem('favorites') ?? '{}') || [];
-      setIds(ids);
-    }
-
-    loadCollection();
+    const favorites = localStorage.getItem('favorites');
+    const ids = favorites ? JSON.parse(favorites) : [];
+    setIds(Array.isArray(ids) ? ids : []);
   }, []);
 
   return (
